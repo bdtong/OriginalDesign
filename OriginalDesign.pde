@@ -9,10 +9,12 @@ public class Player {
   boolean right;
   boolean up;
   boolean down;
+  short bulletAngle;
   
-  public Player() {
-    setX(50);
-    setY(50);
+  public Player(int x, int y, short bulletAngle) {
+    setX(x);
+    setY(y);
+    this.bulletAngle = bulletAngle;
   }
   
   public void setX(int x) {
@@ -71,15 +73,15 @@ public class Player {
   }
   
   public void doAction() {
-    handler.addObject(new Bullet(player.getX(), player.getY()));
+    handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle));
   }
   
   public void borderDetection() {
     if (x < 0) {
       x = 0;
     }
-    if (x >= 500) {
-      x = 500;
+    if (x >= 1000) {
+      x = 1000;
     }
     if (y < 0) {
       y = 0;
@@ -97,10 +99,10 @@ public class Bullet {
   int velY;
   short angle;
   
-  public Bullet (int x, int y) {
+  public Bullet (int x, int y, short bulletAngle) {
     this.x = x;
     this.y = y;
-    angle = 270;
+    angle = bulletAngle;
   }
   
   void tickBullet() {
@@ -119,7 +121,7 @@ public class Bullet {
       handler.removeObject(this);
       //System.out.println("deleted");
     }
-    if (x >= 500) {
+    if (x >= 1000) {
       handler.removeObject(this);
       //System.out.println("deleted");
     }
@@ -165,9 +167,10 @@ public class Handler {
      }
 }
 
-Player player = new Player();
+Player player = new Player(50, 250,(short) 0);
+Player player2 = new Player(950, 250, (short) 180);
 Handler handler = new Handler();
-boolean[] keyDown = new boolean[4];
+boolean[] keyDown = new boolean[8];
 
 void setup()
 {
@@ -175,17 +178,24 @@ void setup()
   keyDown[1] = false;
   keyDown[2] = false;
   keyDown[3] = false;
-  size(500,500);
+  keyDown[4] = false;
+  keyDown[5] = false;
+  keyDown[6] = false;
+  keyDown[7] = false;
+  size(1000,500);
 }
 void draw()
 {
   background(0);
   player.drawPlayer();
+  player2.drawPlayer();
   handler.tickBullet();
   handler.drawBullet();
 }
 
 void keyPressed() {
+  
+  //player
   if (key == 'w') {
      player.setVelY(-5);
      keyDown[0] = true;
@@ -202,9 +212,29 @@ void keyPressed() {
      player.setVelX(5);
      keyDown[3] = true;
   }
+  
+  //player2
+  if (key == '8') {
+     player2.setVelY(-5);
+     keyDown[4] = true;
+  }
+  else if (key == '4') {
+     player2.setVelX(-5);
+     keyDown[6] = true;
+  }
+  else if (key == '5') {
+     player2.setVelY(5);
+     keyDown[5] = true;
+  }
+  else if (key == '6') {
+     player2.setVelX(5);
+     keyDown[7] = true;
+  }
 }
 
 void keyReleased() {
+  
+  //player
   if (key == 'w') {
      keyDown[0] = false;
   }
@@ -225,5 +255,28 @@ void keyReleased() {
   }
   if (key == 'b') {
     player.doAction();
+  }
+  
+  //player2
+  if (key == '8') {
+     keyDown[4] = false;
+  }
+  else if (key == '4') {
+     keyDown[6] = false;
+  }
+  else if (key == '5') {
+     keyDown[5] = false;
+  }
+  else if (key == '6') {
+     keyDown[7] = false;
+  }
+  if (!keyDown[4] && !keyDown[5]){
+     player2.setVelY(0);
+  }
+  if (!keyDown[6] && !keyDown[7]){
+     player2.setVelX(0);
+  }
+  if (key == '0') {
+    player2.doAction();
   }
 }
