@@ -68,6 +68,7 @@ public class Player {
   public void drawPlayer() {
     x += velX;
     y += velY;
+    fill(#ffffff);
     ellipse(x,y,50,50);
     borderDetection();
   }
@@ -113,6 +114,7 @@ public class Bullet {
   }
   
   void drawBullet() {
+    fill(#ffffff);
     ellipse(x, y, 10, 10);
   }
   
@@ -167,9 +169,38 @@ public class Handler {
      }
 }
 
+public class HealthBar {
+  int health = 100;
+  int id;
+  
+  public HealthBar (int id) {
+    this.id = id;
+  }
+  
+  public void tick() {
+    health = checkborder(health, 0, 100);
+  }
+  
+  public void drawHealth() {
+    fill(0,200,0);
+    rect(10, 10, 200, 25);
+  }
+  
+  public int checkborder(int var, int min, int max) {
+        if (var >= max) 
+            return max;
+        else if (var <= min)
+            return min;
+        else 
+            return var;
+    }
+  
+}
+
 Player player = new Player(50, 250,(short) 0);
 Player player2 = new Player(950, 250, (short) 180);
 Handler handler = new Handler();
+HealthBar healthbar = new HealthBar(1);
 boolean[] keyDown = new boolean[8];
 
 void setup()
@@ -191,6 +222,7 @@ void draw()
   player2.drawPlayer();
   handler.tickBullet();
   handler.drawBullet();
+  healthbar.drawHealth();
 }
 
 void keyPressed() {
