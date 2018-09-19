@@ -1,4 +1,5 @@
 import java.util.LinkedList;
+import java.awt.Rectangle;
 
 public class Player {
   int x;
@@ -10,11 +11,15 @@ public class Player {
   boolean up;
   boolean down;
   short bulletAngle;
+  int id;
+  HealthBar healthbar;
   
-  public Player(int x, int y, short bulletAngle) {
+  public Player(int x, int y, short bulletAngle, int id) {
     setX(x);
     setY(y);
     this.bulletAngle = bulletAngle;
+    this.id = id;
+    healthbar = new HealthBar(id);
   }
   
   public void setX(int x) {
@@ -70,11 +75,16 @@ public class Player {
     y += velY;
     fill(#ffffff);
     ellipse(x,y,50,50);
+    collision();
     borderDetection();
   }
   
+  public Rectangle getBounds() {
+        return new Rectangle(x, y, 32, 32);    
+  }
+  
   public void doAction() {
-    handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle));
+    handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle, this.id));
   }
   
   public void borderDetection() {
@@ -91,6 +101,19 @@ public class Player {
       y = 500;
     }
   }
+  
+  public void collision() {
+    for (int i = 0; i < handler.bulletList.size(); i++) {
+      Bullet temp = handler.bulletList.get(i);
+      if (getBounds().intersects(temp.getBounds())) {
+          if (temp.id != this.id) {
+            this.healthbar.health = this.healthbar.health - 5;
+          }
+      }
+    }
+    
+  
+  }
 }
 
 public class Bullet {
@@ -99,11 +122,13 @@ public class Bullet {
   int velX;
   int velY;
   short angle;
+  int id;
   
-  public Bullet (int x, int y, short bulletAngle) {
+  public Bullet (int x, int y, short bulletAngle, int id) {
     this.x = x;
     this.y = y;
     angle = bulletAngle;
+    this.id = id;
   }
   
   void tickBullet() {
@@ -116,6 +141,10 @@ public class Bullet {
   void drawBullet() {
     fill(#ffffff);
     ellipse(x, y, 10, 10);
+  }
+  
+  public Rectangle getBounds() {
+        return new Rectangle(x, y, 4, 4);    
   }
   
   void borderDetection() {
@@ -182,8 +211,10 @@ public class HealthBar {
   }
   
   public void drawHealth() {
-    fill(0,200,0);
+    fill(#d3d3d3);
     rect(10, 10, 200, 25);
+    fill(0,200,0);
+    rect(10, 10, health * 2, 25);
   }
   
   public int checkborder(int var, int min, int max) {
@@ -197,10 +228,9 @@ public class HealthBar {
   
 }
 
-Player player = new Player(50, 250,(short) 0);
-Player player2 = new Player(950, 250, (short) 180);
+Player player = new Player(50, 250,(short) 0, 1);
+Player player2 = new Player(950, 250, (short) 180, 2);
 Handler handler = new Handler();
-HealthBar healthbar = new HealthBar(1);
 boolean[] keyDown = new boolean[8];
 
 void setup()
@@ -222,7 +252,7 @@ void draw()
   player2.drawPlayer();
   handler.tickBullet();
   handler.drawBullet();
-  healthbar.drawHealth();
+  player.healthbar.drawHealth();
 }
 
 void keyPressed() {
