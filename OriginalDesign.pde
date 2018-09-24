@@ -215,13 +215,29 @@ public class HealthBar {
     if (id == 1) {
       fill(#d3d3d3);
       rect(10, 10, 200, 25);
-      fill(0,200,0);
+      if (health >70) {
+        fill(0,200,0);
+      }
+      else if (health <= 60 && health >= 30) {
+        fill(#ffae42);
+      }
+      else if (health < 30) {
+        fill(#BA4646);
+      }
       rect(10, 10, health * 2, 25);
     }
     else {
       fill(#d3d3d3);
       rect(785, 10, 200, 25);
-      fill(0,200,0);
+      if (health >70) {
+        fill(0,200,0);
+      }
+      else if (health <= 60 && health >= 30) {
+        fill(#ffae42);
+      }
+      else if (health < 30) {
+        fill(#BA4646);
+      }
       rect(785, 10, health * 2, 25);
     }
   }
@@ -241,6 +257,8 @@ Player player = new Player(50, 250,(short) 0, 1);
 Player player2 = new Player(950, 250, (short) 180, 2);
 Handler handler = new Handler();
 boolean[] keyDown = new boolean[8];
+boolean playerDeath = false;
+boolean player2Death = false;
 
 void setup()
 {
@@ -257,12 +275,26 @@ void setup()
 void draw()
 {
   background(0);
-  player.drawPlayer();
-  player2.drawPlayer();
+  if (player.healthbar.health == 0) {
+    player = null;
+    playerDeath = true;
+  }
+  if (player2.healthbar.health == 0) {
+    player2 = null;
+    player2Death = true;
+  }
+  if (playerDeath == false) {
+    player.drawPlayer();
+    player.healthbar.drawHealth();
+  }
+  if (player2Death == false) {
+    player2.drawPlayer();
+    player2.healthbar.drawHealth();
+  }
   handler.tickBullet();
   handler.drawBullet();
-  player.healthbar.drawHealth();
-  player2.healthbar.drawHealth();
+  
+  
 }
 
 void keyPressed() {
