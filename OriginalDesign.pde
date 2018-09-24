@@ -111,8 +111,6 @@ public class Player {
           }
       }
     }
-    
-  
   }
 }
 
@@ -211,10 +209,21 @@ public class HealthBar {
   }
   
   public void drawHealth() {
-    fill(#d3d3d3);
-    rect(10, 10, 200, 25);
-    fill(0,200,0);
-    rect(10, 10, health * 2, 25);
+    
+    this.tick(); 
+    
+    if (id == 1) {
+      fill(#d3d3d3);
+      rect(10, 10, 200, 25);
+      fill(0,200,0);
+      rect(10, 10, health * 2, 25);
+    }
+    else {
+      fill(#d3d3d3);
+      rect(785, 10, 200, 25);
+      fill(0,200,0);
+      rect(785, 10, health * 2, 25);
+    }
   }
   
   public int checkborder(int var, int min, int max) {
@@ -253,6 +262,7 @@ void draw()
   handler.tickBullet();
   handler.drawBullet();
   player.healthbar.drawHealth();
+  player2.healthbar.drawHealth();
 }
 
 void keyPressed() {
