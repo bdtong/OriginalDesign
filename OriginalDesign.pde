@@ -12,6 +12,7 @@ public class Player {
   boolean down;
   short bulletAngle;
   int id;
+  int dead;
   HealthBar healthbar;
   
   public Player(int x, int y, short bulletAngle, int id) {
@@ -20,6 +21,7 @@ public class Player {
     this.bulletAngle = bulletAngle;
     this.id = id;
     healthbar = new HealthBar(id);
+    dead = 0;
   }
   
   public void setX(int x) {
@@ -77,14 +79,18 @@ public class Player {
     ellipse(x,y,50,50);
     collision();
     borderDetection();
+    if (healthbar.health == 0) {
+      setDead();
+    }
   }
   
   public Rectangle getBounds() {
-        return new Rectangle(x, y, 32, 32);    
+        return new Rectangle(x - 17, y - 17, 35, 35);    
   }
   
   public void doAction() {
-    handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle, this.id));
+    if (dead == 0)
+      handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle, this.id));
   }
   
   public void borderDetection() {
@@ -111,6 +117,14 @@ public class Player {
           }
       }
     }
+  }
+  
+  public void setDead() {
+    dead = 1;
+  }
+  
+  public int isDead() {
+    return dead;
   }
 }
 
@@ -142,7 +156,7 @@ public class Bullet {
   }
   
   public Rectangle getBounds() {
-        return new Rectangle(x, y, 4, 4);    
+        return new Rectangle(x - 3, y - 3, 5, 5);    
   }
   
   void borderDetection() {
@@ -275,22 +289,14 @@ void setup()
 void draw()
 {
   background(0);
-  if (player.healthbar.health == 0) {
-    player = null;
-    playerDeath = true;
-  }
-  if (player2.healthbar.health == 0) {
-    player2 = null;
-    player2Death = true;
-  }
-  if (playerDeath == false) {
+  if (player.isDead() == 0) {
     player.drawPlayer();
-    player.healthbar.drawHealth();
   }
-  if (player2Death == false) {
+  player.healthbar.drawHealth();
+  if (player2.isDead() == 0) {
     player2.drawPlayer();
-    player2.healthbar.drawHealth();
   }
+  player2.healthbar.drawHealth();
   handler.tickBullet();
   handler.drawBullet();
   
