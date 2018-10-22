@@ -1,12 +1,9 @@
-Player player = new Player(50, 250,(short) 0, 1);
-Player player2 = new Player(950, 250, (short) 180, 2);
-Handler handler = new Handler();
 boolean[] keyDown = new boolean[8];
-boolean playerDeath = false;
-boolean player2Death = false;
+PImage tripleico;
 
 void setup()
 {
+  tripleico = loadImage("tripleicon.png");
   keyDown[0] = false;
   keyDown[1] = false;
   keyDown[2] = false;
@@ -17,6 +14,13 @@ void setup()
   keyDown[7] = false;
   size(1000,500);
 }
+
+Player player = new Player(50, 250,(short) 0, 1);
+Player player2 = new Player(950, 250, (short) 180, 2);
+boolean playerDeath = false;
+boolean player2Death = false;
+Handler handler = new Handler();
+
 void draw()
 {
   background(0);
@@ -35,6 +39,8 @@ void draw()
     text("You Win", 695, 150); 
   }
   player.healthbar.drawHealth();
+  image(tripleico, 250, 15);
+  player.PU.displayCapacity();
   if (player2.isDead() == 0) {
     player2.drawPlayer();
   } 
@@ -44,6 +50,7 @@ void draw()
     text("You Win", 175, 150); 
   }
   player2.healthbar.drawHealth();
+  image(tripleico, 700, 15);
   handler.tickBullet();
   handler.drawBullet();
 }

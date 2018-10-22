@@ -12,6 +12,7 @@ public class Player {
   short bulletAngle;
   int id;
   int dead;
+  Powerup PU;
   HealthBar healthbar;
   
   public Player(int x, int y, short bulletAngle, int id) {
@@ -20,6 +21,7 @@ public class Player {
     this.bulletAngle = bulletAngle;
     this.id = id;
     healthbar = new HealthBar(id);
+    PU = new Powerup(id);
     dead = 0;
   }
   
