@@ -92,6 +92,8 @@ public class Player {
     if (healthbar.health == 0) {
       setDead();
     }
+    
+    ellipse(x + 40, y , 6, 6);
   }
   
   public Rectangle getBounds() {
@@ -101,6 +103,15 @@ public class Player {
   public void doAction() {
     if (dead == 0)
       handler.addObject(new Bullet(this.getX(), this.getY(), bulletAngle, this.id));
+  }
+  
+  public void doAction2() {
+    if (dead == 0 && (PU.getCapacity() > 0)) {
+      handler.addObject(new Bullet(this.getX(), this.getY(), (short)(bulletAngle + 5), this.id));
+      handler.addObject(new Bullet(this.getX(), this.getY(), (short)(bulletAngle), this.id));
+      handler.addObject(new Bullet(this.getX(), this.getY(), (short)(bulletAngle - 5), this.id));
+      PU.decreaseCapacity();
+    }
   }
   
   public void borderDetection() {

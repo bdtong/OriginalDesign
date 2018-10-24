@@ -1,5 +1,5 @@
 public class Powerup {
-  int capacity = 3;
+  int capacity = 10;
   int id;
   
   public Powerup(int id) {
@@ -7,11 +7,22 @@ public class Powerup {
   }
   
   void displayCapacity() {
-    fill(#ffffff);
-    text(String.valueOf(capacity), 275, 29);
-    //if (id == 1) {
-     // image(img, 500, 100);
-    //}
+    if (id == 1) {
+      fill(#ffffff);
+      text(String.valueOf(capacity), 275, 28);
+    } 
+    else {
+      fill(#ffffff);
+      text(String.valueOf(capacity), 735, 28);
+    }
+  }
+  
+  void decreaseCapacity() {
+    capacity--;
+  }
+  
+  int getCapacity() {
+    return capacity;
   }
  
 }

@@ -1,5 +1,6 @@
 boolean[] keyDown = new boolean[8];
 PImage tripleico;
+Laser laser;
 
 void setup()
 {
@@ -13,6 +14,7 @@ void setup()
   keyDown[6] = false;
   keyDown[7] = false;
   size(1000,500);
+  laser = new Laser(0,0); //FIX
 }
 
 Player player = new Player(50, 250,(short) 0, 1);
@@ -39,7 +41,7 @@ void draw()
     text("You Win", 695, 150); 
   }
   player.healthbar.drawHealth();
-  image(tripleico, 250, 15);
+  image(tripleico, 250, 14);
   player.PU.displayCapacity();
   if (player2.isDead() == 0) {
     player2.drawPlayer();
@@ -50,7 +52,8 @@ void draw()
     text("You Win", 175, 150); 
   }
   player2.healthbar.drawHealth();
-  image(tripleico, 700, 15);
+  image(tripleico, 710, 14);
+  player2.PU.displayCapacity();
   handler.tickBullet();
   handler.drawBullet();
 }
@@ -118,6 +121,9 @@ void keyReleased() {
   if (key == 'b') {
     player.doAction();
   }
+  if (key == 'n') {
+    player.doAction2();
+  }
   
   //player2
   if (key == '8') {
@@ -140,5 +146,8 @@ void keyReleased() {
   }
   if (key == '0') {
     player2.doAction();
+  }
+  if (key == '.') {
+    player2.doAction2();
   }
 }
