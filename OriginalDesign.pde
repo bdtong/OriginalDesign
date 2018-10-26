@@ -1,6 +1,5 @@
 boolean[] keyDown = new boolean[8];
 PImage tripleico;
-Laser laser;
 
 void setup()
 {
@@ -14,7 +13,6 @@ void setup()
   keyDown[6] = false;
   keyDown[7] = false;
   size(1000,500);
-  laser = new Laser(0,0); //FIX
 }
 
 Player player = new Player(50, 250,(short) 0, 1);
@@ -25,6 +23,7 @@ Handler handler = new Handler();
 
 void draw()
 {
+  //Background
   background(0);
   stroke(#cc0000);
   fill(#000000);
@@ -32,6 +31,8 @@ void draw()
   stroke(#0080ff);
   fill(#000000);
   rect(501,2, 496,495);
+  
+  //Player 1
   if (player.isDead() == 0) {
     player.drawPlayer();
   }
@@ -43,6 +44,8 @@ void draw()
   player.healthbar.drawHealth();
   image(tripleico, 250, 14);
   player.PU.displayCapacity();
+  
+  //Player 2
   if (player2.isDead() == 0) {
     player2.drawPlayer();
   } 
@@ -54,6 +57,8 @@ void draw()
   player2.healthbar.drawHealth();
   image(tripleico, 710, 14);
   player2.PU.displayCapacity();
+  
+  //Bullet Handling
   handler.tickBullet();
   handler.drawBullet();
 }

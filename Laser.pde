@@ -19,9 +19,27 @@ class Laser {
       spawnAngles[i] = (short) n;
       System.out.println(n);
     }
+  }
+  
+  public void chargeLaser() {
     
+    //translation
+    //rotation
     
-    
+    for (int i = 0; i <= spawnAngles.length; i++) {
+      pushMatrix();
+      
+      ellipse(x + 40, y , 6, 6);
+    }
+  }
+  
+  public void moveLaser(int velX, int velY) {
+    x += velX;
+    y += velY;  
+  }
+  
+  public void drawLaser() {
+    ellipse(x, y, 6, 6);
   }
   
 }

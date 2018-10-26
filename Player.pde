@@ -13,6 +13,7 @@ public class Player {
   int id;
   int dead;
   Powerup PU;
+  Laser laser;
   HealthBar healthbar;
   
   public Player(int x, int y, short bulletAngle, int id) {
@@ -22,6 +23,7 @@ public class Player {
     this.id = id;
     healthbar = new HealthBar(id);
     PU = new Powerup(id);
+    laser = new Laser(x + 40, y);
     dead = 0;
   }
   
@@ -77,6 +79,8 @@ public class Player {
     x += velX;
     y += velY;
     
+    laser.moveLaser(velX, velY);
+    
     if (id == 1) {
       stroke(#990000);
       fill(#cc0000);
@@ -93,7 +97,7 @@ public class Player {
       setDead();
     }
     
-    ellipse(x + 40, y , 6, 6);
+    laser.drawLaser();
   }
   
   public Rectangle getBounds() {
