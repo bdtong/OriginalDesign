@@ -16,6 +16,7 @@ public class Player {
   Laser laser;
   HealthBar healthbar;
   
+  
   public Player(int x, int y, short bulletAngle, int id) {
     setX(x);
     setY(y);
@@ -23,7 +24,7 @@ public class Player {
     this.id = id;
     healthbar = new HealthBar(id);
     PU = new Powerup(id);
-    laser = new Laser(x + 40, y);
+    laser = new Laser(x + 40, y, id);
     dead = 0;
   }
   
@@ -97,7 +98,12 @@ public class Player {
       setDead();
     }
     
-    laser.drawLaser();
+    //if (laserFire == true && laserCounter < 100) {
+      laser.drawLaser(velX, velY);
+    //}
+    //else {
+      //laserFire = false;
+    //}
   }
   
   public Rectangle getBounds() {
@@ -116,6 +122,9 @@ public class Player {
       handler.addObject(new Bullet(this.getX(), this.getY(), (short)(bulletAngle - 5), this.id));
       PU.decreaseCapacity();
     }
+  }
+  
+  public void doAction3() {
   }
   
   public void borderDetection() {

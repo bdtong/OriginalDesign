@@ -9,10 +9,12 @@ public class Powerup {
   void displayCapacity() {
     if (id == 1) {
       fill(#ffffff);
+      textSize(12);
       text(String.valueOf(capacity), 275, 28);
     } 
     else {
       fill(#ffffff);
+      textSize(12);
       text(String.valueOf(capacity), 735, 28);
     }
   }

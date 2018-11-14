@@ -129,6 +129,9 @@ void keyReleased() {
   if (key == 'n') {
     player.doAction2();
   }
+  if (key == 'm') {
+    player.doAction3();
+  }
   
   //player2
   if (key == '8') {
